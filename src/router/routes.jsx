@@ -9,9 +9,9 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 
 import PrivateRoute from "./PrivateRoute";
-import Dashboard from "../pages/Dashboard";
-import Profile from "../pages/Profile";
-import ProfileSettings from "../pages/ProfileSettings";
+import Dashboard from "../pages/Dashboard/Dashboard";
+import Profile from "../pages/Profile/Profile";
+import ProfileSettings from "../pages/Profile/ProfileSettings";
 
 import NotFound from "../pages/NotFound";
 import Courses from "../pages/Course/Courses";
@@ -27,85 +27,85 @@ import CourseDetailAnnouncements from "../pages/Course/CourseDetailAnnouncements
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout />,
+    Component: MainLayout,
     children: [
       {
         index: true,
-        element: <Home />,
+        Component: Home,
       },
       {
         path: "about",
-        element: <About />,
+        Component: About,
       },
       {
-        element: <PublicRoute />,
+        Component: PublicRoute,
         children: [
           {
             path: "/login",
-            element: <Login />,
+            Component: Login,
           },
           {
             path: "/signup",
-            element: <Signup />,
+            Component: Signup,
           },
         ],
       },
       {
-        element: <PrivateRoute />,
+        Component: PrivateRoute,
         children: [
           {
             path: "dashboard",
-            element: <Dashboard />,
+            Component: Dashboard,
           },
           {
             path: "profile",
-            element: <Profile />,
-            children: [
-              {
-                path: "settings",
-                element: <ProfileSettings />,
-              },
-            ],
+            Component: Profile,
+          },
+          {
+            path: "profile/settings",
+            Component: ProfileSettings,
           },
           {
             path: "courses",
-            element: <Courses />,
             children: [
+              { index: true, Component: Courses },
               {
                 path: ":courseId",
-                element: <CourseDetails />,
                 children: [
+                  { index: true, Component: CourseDetails },
                   {
                     path: "modules",
-                    element: <CourseDetailModules />,
                     children: [
+                      { index: true, Component: CourseDetailModules },
                       {
-                        path: ":moduleId",
-                        element: <CourseDetailModuleDetails />,
+                        path: ":modulesId",
+                        Component: CourseDetailModuleDetails,
                       },
                     ],
                   },
                   {
                     path: "assignments",
-                    element: <CourseDetailAssignments />,
                     children: [
+                      { index: true, Component: CourseDetailAssignments },
                       {
                         path: ":assignmentId",
-                        element: <CourseDetailAssignmentDetails />,
+                        Component: CourseDetailAssignmentDetails,
                       },
                     ],
                   },
                   {
                     path: "grades",
-                    element: <CourseDetailGrades />,
+                    children: [{ index: true, Component: CourseDetailGrades }],
                   },
                   {
                     path: "people",
-                    element: <CourseDetailPeople />,
+                    children: [{ index: true, Component: CourseDetailPeople }],
                   },
                   {
                     path: "announcements",
-                    element: <CourseDetailAnnouncements />,
+                    children: [
+                      { index: true, Component: CourseDetailAnnouncements },
+                    ],
                   },
                 ],
               },
@@ -117,6 +117,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <NotFound />,
+    Component: NotFound,
   },
 ]);
