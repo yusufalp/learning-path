@@ -2,7 +2,7 @@ import { Link, Outlet } from "react-router";
 import { useAuth } from "../auth/useAuth";
 
 export default function MainLayout() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   return (
     <div>
@@ -13,6 +13,9 @@ export default function MainLayout() {
         {user ? (
           <>
             <Link to="/dashboard">Dashboard</Link>
+            <Link to="" onClick={() => logout()}>
+              Logout
+            </Link>
           </>
         ) : (
           <>
