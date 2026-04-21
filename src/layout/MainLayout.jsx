@@ -13,6 +13,8 @@ export default function MainLayout() {
         {user ? (
           <>
             <Link to="/dashboard">Dashboard</Link>
+            <Link to="/courses">Courses</Link>
+            <Link to="/profile">Profile</Link>
             <Link to="" onClick={() => logout()}>
               Logout
             </Link>
