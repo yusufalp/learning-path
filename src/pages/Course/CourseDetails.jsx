@@ -1,11 +1,13 @@
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
+
 import courses from "../../data/courses.json";
 import profiles from "../../data/profiles.json";
+import modules from "../../data/modules.json";
+
 import { getFullName } from "../../utils/profile";
 
 export default function CourseDetails() {
   const { courseId } = useParams();
-  console.log(courseId);
 
   const course = courses.find((course) => course.id === courseId);
 
@@ -19,7 +21,6 @@ export default function CourseDetails() {
     instructor.last_name,
   );
 
-  console.log("instructor :>> ", instructor);
   return (
     <div>
       <h1>Course Details Page</h1>
@@ -31,6 +32,18 @@ export default function CourseDetails() {
         <strong>Description: </strong>
         {course.description}
       </p>
+
+      <h2>Modules</h2>
+      {modules
+        .filter((module) => module.course_id === courseId)
+        .map((module) => (
+          <ul>
+            <li>
+              <Link to={`modules/${module.id}`}>{module.title}</Link>
+            </li>
+            <li>{module.description}</li>
+          </ul>
+        ))}
     </div>
   );
 }
