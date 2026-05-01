@@ -7,11 +7,21 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await signup(email, password, confirmPassword);
+    setLoading(true);
+    try {
+      await signup(email, password, confirmPassword);
+    } catch (error) {
+      setErrorMessage(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -42,8 +52,12 @@ export default function Signup() {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        <button>Signup</button>
+        <button disabled={loading}>
+          {loading ? "Please wait..." : "Signup"}
+        </button>
       </form>
+
+      {errorMessage && <p className="pre-line">{errorMessage}</p>}
     </div>
   );
 }

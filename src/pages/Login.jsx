@@ -3,14 +3,24 @@ import { useAuth } from "../auth/useAuth";
 
 export default function Login() {
   const { login } = useAuth();
-  
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await login(email, password);
+    setLoading(true);
+    try {
+      await login(email, password);
+    } catch (error) {
+      setErrorMessage(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -34,8 +44,12 @@ export default function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button>Login</button>
+        <button disabled={loading}>
+          {loading ? "Please wait..." : "Login"}
+        </button>
       </form>
+
+      {errorMessage && <p className="pre-line">{errorMessage}</p>}
     </div>
   );
 }
