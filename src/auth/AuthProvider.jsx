@@ -28,10 +28,12 @@ export function AuthProvider({ children }) {
     };
 
     const res = await fetch(url, options);
+    const data = await res.json();
 
-    if (res.ok) {
-      const data = await res.json();
+    if (res.ok || data.success) {
       setUser(data.user);
+    } else {
+      throw new Error(data.message)
     }
   };
 
@@ -45,10 +47,12 @@ export function AuthProvider({ children }) {
     };
 
     const res = await fetch(url, options);
+    const data = await res.json();
 
-    if (res.ok) {
-      const data = await res.json();
+    if (res.ok || data.success) {
       setUser(data.user);
+    } else {
+      throw new Error(data.message);
     }
   };
 
