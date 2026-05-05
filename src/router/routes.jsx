@@ -25,6 +25,7 @@ import CourseDetailPeople from "../pages/Course/CourseDetailPeople";
 import CourseDetailAnnouncements from "../pages/Course/CourseDetailAnnouncements";
 
 import NotFound from "../pages/NotFound";
+import CourseDetailAssignmentNew from "../pages/Course/CourseDetailAssignmentNew";
 
 export const router = createBrowserRouter([
   {
@@ -94,6 +95,10 @@ export const router = createBrowserRouter([
                       {
                         path: ":assignmentId",
                         Component: CourseDetailAssignmentDetails,
+                      },
+                      {
+                        path: "new",
+                        Component: CourseDetailAssignmentNew,
                       },
                     ],
                   },
