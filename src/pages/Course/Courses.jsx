@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import courses from "../../data/courses.json";
 import enrollments from "../../data/enrollments.json";
 
-import { useAuth } from "../../auth/useAuth";
+import { useAuth } from "../../context/auth/useAuth";
 
 export default function Courses() {
   const { user } = useAuth();
