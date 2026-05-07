@@ -14,18 +14,22 @@ import DashboardSettings from "../pages/Dashboard/DashboardSettings";
 import Profile from "../pages/Profile/Profile";
 import ProfileSettings from "../pages/Profile/ProfileSettings";
 
+import RoleProtectedRoute from "./RoleProtectedRoute";
+import UserList from "../pages/User/UserList";
+
 import Courses from "../pages/Course/Courses";
 import CourseDetails from "../pages/Course/CourseDetails";
 import CourseDetailModules from "../pages/Course/CourseDetailModules";
 import CourseDetailModuleDetails from "../pages/Course/CourseDetailModuleDetails";
 import CourseDetailAssignments from "../pages/Course/CourseDetailAssignments";
 import CourseDetailAssignmentDetails from "../pages/Course/CourseDetailAssignmentDetails";
+import CourseDetailAssignmentNew from "../pages/Course/CourseDetailAssignmentNew";
+import CourseDetailAnnouncements from "../pages/Course/CourseDetailAnnouncements";
 import CourseDetailGrades from "../pages/Course/CourseDetailGrades";
 import CourseDetailPeople from "../pages/Course/CourseDetailPeople";
-import CourseDetailAnnouncements from "../pages/Course/CourseDetailAnnouncements";
 
 import NotFound from "../pages/NotFound";
-import CourseDetailAssignmentNew from "../pages/Course/CourseDetailAssignmentNew";
+import ProfileNew from "../features/Profile/ProfileNew";
 
 export const router = createBrowserRouter([
   {
@@ -57,6 +61,20 @@ export const router = createBrowserRouter([
         Component: PrivateRoute,
         children: [
           {
+            Component: (props) => (
+              <RoleProtectedRoute
+                allowedRoles={["owner", "admin"]}
+                {...props}
+              />
+            ),
+            children: [
+              {
+                path: "admin",
+                children: [{ path: "users", Component: UserList }],
+              },
+            ],
+          },
+          {
             path: "dashboard",
             children: [
               { index: true, Component: Dashboard },
@@ -68,6 +86,7 @@ export const router = createBrowserRouter([
             children: [
               { index: true, Component: Profile },
               { path: "settings", Component: ProfileSettings },
+              { path: "new", Component: ProfileNew },
             ],
           },
           {
