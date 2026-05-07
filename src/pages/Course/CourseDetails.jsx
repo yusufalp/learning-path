@@ -4,7 +4,7 @@ import courses from "../../data/courses.json";
 import profiles from "../../data/profiles.json";
 import modules from "../../data/modules.json";
 
-import { getFullName } from "../../utils/profile";
+import { getFullName } from "../../utils/name";
 
 export default function CourseDetails() {
   const { courseId } = useParams();
