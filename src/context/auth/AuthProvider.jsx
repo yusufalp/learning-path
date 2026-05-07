@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 
 const AUTH_API_URL = import.meta.env.VITE_AUTH_API_URL;
@@ -7,16 +7,54 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const checkAuth = useCallback(async () => {
     const url = `${AUTH_API_URL}/checkAuth`;
     const options = { credentials: "include" };
 
-    fetch(url, options)
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => setUser(data.user))
-      .catch((error) => console.log(error))
-      .finally(() => setLoading(false));
+    try {
+      const res = await fetch(url, options);
+
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data.user || null);
+      } else {
+        setUser(null);
+      }
+    } catch (error) {
+      console.error("Auth check failed:", error);
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  const hasRole = useCallback(
+    (roles) => {
+      if (!user?.role) return false;
+
+      const userRole = user.role.toLowerCase();
+      const allowedRoles = Array.isArray(roles)
+        ? roles.map((r) => r.toLowerCase())
+        : [roles.toLowerCase()];
+
+      return allowedRoles.includes(userRole);
+    },
+    [user],
+  );
+
+  const isAdmin = useCallback(() => {
+    hasRole(["owner", "admin"]);
+  }, [hasRole]);
+  const isMentor = useCallback(() => {
+    hasRole(["mentor"]);
+  }, [hasRole]);
+  const isMentee = useCallback(() => {
+    hasRole(["mentee"]);
+  }, [hasRole]);
 
   const signup = async (email, password, confirmPassword) => {
     const url = `${AUTH_API_URL}/signup`;
@@ -33,7 +71,7 @@ export function AuthProvider({ children }) {
     if (res.ok || data.success) {
       setUser(data.user);
     } else {
-      throw new Error(data.message)
+      throw new Error(data.message);
     }
   };
 
@@ -66,7 +104,20 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, signup, login, logout, loading }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        signup,
+        login,
+        logout,
+        checkAuth,
+        hasRole,
+        isAdmin,
+        isMentor,
+        isMentee,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
