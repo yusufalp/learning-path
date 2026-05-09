@@ -1,22 +1,16 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Outlet } from "react-router";
 
 import MainLayout from "../layout/MainLayout";
 import Home from "../pages/Home";
 import About from "../pages/About";
 
 import PublicRoute from "./PublicRoute";
-import Login from "../pages/Login";
-import Signup from "../pages/Signup";
+import Login from "../features/Login";
+import Signup from "../features/Signup";
 
 import PrivateRoute from "./PrivateRoute";
-import Dashboard from "../pages/Dashboard/Dashboard";
-import DashboardSettings from "../pages/Dashboard/DashboardSettings";
-import Profile from "../pages/Profile/Profile";
-import ProfileSettings from "../pages/Profile/ProfileSettings";
-
-import RoleProtectedRoute from "./RoleProtectedRoute";
-import UserList from "../pages/User/UserList";
-
+import Application from "../pages/Application/Application";
+import ApplicationNew from "../features/Application/ApplicationNew";
 import Courses from "../pages/Course/Courses";
 import CourseDetails from "../pages/Course/CourseDetails";
 import CourseDetailModules from "../pages/Course/CourseDetailModules";
@@ -27,9 +21,16 @@ import CourseDetailAssignmentNew from "../pages/Course/CourseDetailAssignmentNew
 import CourseDetailAnnouncements from "../pages/Course/CourseDetailAnnouncements";
 import CourseDetailGrades from "../pages/Course/CourseDetailGrades";
 import CourseDetailPeople from "../pages/Course/CourseDetailPeople";
+import Dashboard from "../pages/Dashboard/Dashboard";
+import DashboardSettings from "../pages/Dashboard/DashboardSettings";
+import Profile from "../pages/Profile/Profile";
+import ProfileNew from "../features/Profile/ProfileNew";
+import ProfileEdit from "../pages/Profile/ProfileEdit";
+
+import RoleProtectedRoute from "./RoleProtectedRoute";
+import UserList from "../pages/User/UserList";
 
 import NotFound from "../pages/NotFound";
-import ProfileNew from "../features/Profile/ProfileNew";
 
 export const router = createBrowserRouter([
   {
@@ -61,17 +62,24 @@ export const router = createBrowserRouter([
         Component: PrivateRoute,
         children: [
           {
-            Component: (props) => (
-              <RoleProtectedRoute
-                allowedRoles={["owner", "admin"]}
-                {...props}
-              />
+            path: "admin",
+            Component: () => (
+              <RoleProtectedRoute allowedRoles={["admin"]}>
+                <Outlet />
+              </RoleProtectedRoute>
+            ),
+            children: [{ path: "users", Component: UserList }],
+          },
+          {
+            path: "application",
+            Component: () => (
+              <RoleProtectedRoute allowedRoles={["read"]}>
+                <Outlet />
+              </RoleProtectedRoute>
             ),
             children: [
-              {
-                path: "admin",
-                children: [{ path: "users", Component: UserList }],
-              },
+              { index: true, Component: Application },
+              { path: "new", Component: ApplicationNew },
             ],
           },
           {
@@ -85,7 +93,7 @@ export const router = createBrowserRouter([
             path: "profile",
             children: [
               { index: true, Component: Profile },
-              { path: "settings", Component: ProfileSettings },
+              { path: "edit", Component: ProfileEdit },
               { path: "new", Component: ProfileNew },
             ],
           },
