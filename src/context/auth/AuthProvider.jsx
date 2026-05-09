@@ -1,22 +1,25 @@
 import { useCallback, useEffect, useState } from "react";
+
 import { AuthContext } from "./AuthContext";
 
 const AUTH_API_URL = import.meta.env.VITE_AUTH_API_URL;
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const checkAuth = useCallback(async () => {
     const url = `${AUTH_API_URL}/checkAuth`;
     const options = { credentials: "include" };
 
     try {
-      const res = await fetch(url, options);
+      setLoading(true);
 
-      if (res.ok) {
-        const data = await res.json();
-        setUser(data.user || null);
+      const response = await fetch(url, options);
+      const result = await response.json();
+
+      if (response.ok) {
+        setUser(result.user || null);
       } else {
         setUser(null);
       }
@@ -103,22 +106,20 @@ export function AuthProvider({ children }) {
     setUser(null);
   };
 
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        loading,
-        signup,
-        login,
-        logout,
-        checkAuth,
-        hasRole,
-        isAdmin,
-        isMentor,
-        isMentee,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  console.log("user :>> ", user);
+
+  const value = {
+    user,
+    loading,
+    signup,
+    login,
+    logout,
+    checkAuth,
+    hasRole,
+    isAdmin,
+    isMentor,
+    isMentee,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
