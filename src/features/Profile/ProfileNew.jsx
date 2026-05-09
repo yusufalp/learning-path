@@ -1,39 +1,42 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-import { useAuth } from "../../context/auth/useAuth";
+import { useProfile } from "../../context/profile/useProfile";
 import ProfileCreateForm from "../../pages/Profile/ProfileCreateForm";
 
 export default function ProfileNew() {
-  const { user } = useAuth();
+  const { setProfile } = useProfile();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    display_name: "",
-    avatar_url: "",
+    firstName: "",
+    lastName: "",
+    displayName: "",
+    avatarUrl: "",
     bio: "",
     headline: "",
     phone: "",
     timezone: "America/Los_Angeles",
-    email_notifications: false,
-    push_notifications: false,
+    emailNotifications: false,
+    pushNotifications: false,
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const navigate = useNavigate();
-
   const handleChange = (e) => {
+    const value =
+      e.target.type === "radio" ? e.target.value === "true" : e.target.value;
+
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [e.target.name]: value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("formData :>> ", formData);
 
     setLoading(true);
     setError("");
@@ -44,15 +47,19 @@ export default function ProfileNew() {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, user_id: user._id }),
+        body: JSON.stringify(formData),
       };
 
       const response = await fetch(url, options);
+      const result = await response.json();
+      console.log("response :>> ", response);
+      console.log("result :>> ", result);
 
       if (!response.ok) {
         throw new Error("Failed to create profile.");
       }
 
+      setProfile(result.data);
       navigate("/profile");
     } catch (error) {
       setError(error.message);
