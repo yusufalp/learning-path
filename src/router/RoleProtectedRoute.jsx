@@ -6,13 +6,15 @@ export default function RoleProtectedRoute({ allowedRoles, children }) {
 
   if (loading) return <div>Loading...</div>;
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
+  if (!user) return <Navigate to="/login" replace />;
+
+  if (user.role === "owner") {
+    return <>{children || <Outlet />}</>;
   }
 
-  if (!hasRole(allowedRoles)) {
+  if (allowedRoles.length > 0 && !hasRole(allowedRoles)) {
     return <Navigate to="/dashboard" replace />;
   }
 
-  return children ? children : <Outlet />;
+  return <>{children}</>;
 }
