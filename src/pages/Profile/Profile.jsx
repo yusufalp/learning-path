@@ -1,8 +1,11 @@
 import { Link, useNavigate } from "react-router";
 
+import Button from "../../components/Button";
 import { getFullName } from "../../utils/name";
 import { useProfile } from "../../context/profile/useProfile";
 import { useAuth } from "../../context/auth/useAuth";
+import Card from "../../components/Card";
+import { timezoneMap } from "../../constants/timezones";
 
 export default function Profile() {
   const { profile, loading, error, hasProfile } = useProfile();
@@ -16,38 +19,64 @@ export default function Profile() {
     return (
       <div>
         <p>You did not fill out a profile yet.</p>
-        <button onClick={() => navigate("new")}>Create Profile</button>
+        <Button onClick={() => navigate("new")}>Create Profile</Button>
       </div>
     );
   }
 
   return (
     <div>
-      <button onClick={() => navigate("edit")}>Edit Profile</button>
+      <div className="flex flex-col lg:flex-row gap-x-3">
+        <Card title={getFullName(profile.first_name, profile.last_name)}>
+          {profile.avatar_url && (
+            <img
+              src={profile.avatar_url}
+              alt={`{profile.first_name} avatar`}
+              className="w-48 rounded-full mx-auto"
+            />
+          )}
 
-      <h1>Profile Page</h1>
+          <Button
+            variant="primary"
+            size="sm"
+            className="mx-auto mt-4"
+            onClick={() => navigate("edit")}
+          >
+            Edit Profile
+          </Button>
+        </Card>
 
-      {profile.avatar_url && (
-        <img src={profile.avatar_url} alt={`{profile.first_name} avatar`} />
-      )}
+        <Card>
+          <p className="text-lg font-bold">Headline</p>
+          <p>{profile.headline}</p>
 
-      <div>
-        <h2>{getFullName(profile.first_name, profile.last_name)}</h2>
-        {profile.display_name && <h3>{profile.display_name}</h3>}
-        <p>{profile.headline}</p>
+          {profile.bio && (
+            <div>
+              <p className="text-lg font-bold">Bio</p>
+              <p>{profile.bio}</p>
+            </div>
+          )}
+        </Card>
+
+        <Card>
+          <p className="text-lg font-bold">Email</p>
+          <p>{user.email}</p>
+          {profile.phone && (
+            <div>
+              <p className="text-lg font-bold">Phone</p>
+              <p>{profile.phone}</p>
+            </div>
+          )}
+
+          <p className="text-lg font-bold">Timezone</p>
+          <p>
+            {
+              timezoneMap.find((tz) => tz.canonicalName === profile.timezone)
+                .displayWithOffset
+            }
+          </p>
+        </Card>
       </div>
-
-      {profile.bio && (
-        <div>
-          <h4>Bio</h4>
-          <p>{profile.bio}</p>
-        </div>
-      )}
-
-      <p>Email: {user.email}</p>
-      {profile.phone && <p>Phone: {profile.phone}</p>}
-
-      <div>Timezone: {profile.timezone}</div>
     </div>
   );
 }
