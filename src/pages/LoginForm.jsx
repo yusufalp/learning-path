@@ -1,3 +1,8 @@
+import Button from "../components/Button";
+import Card from "../components/Card";
+import Input from "../components/Input";
+import StyledLink from "../components/StyledLink";
+
 export default function LoginForm({
   formData,
   onChange,
@@ -7,32 +12,35 @@ export default function LoginForm({
 }) {
   return (
     <div>
-      <h1>Login Page</h1>
+      <Card title="Welcome Back" className="w-1/2 mx-auto">
+        <form onSubmit={onSubmit}>
+          <Input
+            label="Email"
+            id="email"
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={onChange}
+            placeholder="johnwick@ruska.com"
+          />
+          <Input
+            label="Password"
+            id="password"
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={onChange}
+          />
 
-      <form onSubmit={onSubmit}>
-        <label htmlFor="email">Email</label>
-        <input
-          type="text"
-          name="email"
-          id="email"
-          value={formData.email}
-          onChange={onChange}
-        />
+          <p className="text-center my-4">
+            Don't have an account? <StyledLink to="/signup">Signup</StyledLink>
+          </p>
 
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          value={formData.password}
-          onChange={onChange}
-        />
-
-        <button disabled={loading}>
-          {loading ? "Please wait..." : "Login"}
-        </button>
-      </form>
-
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? "Please wait..." : "Login"}
+          </Button>
+        </form>
+      </Card>
       {error && <p className="pre-line">{error}</p>}
     </div>
   );

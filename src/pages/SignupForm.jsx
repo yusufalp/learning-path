@@ -1,3 +1,8 @@
+import Button from "../components/Button";
+import Card from "../components/Card";
+import Input from "../components/Input";
+import StyledLink from "../components/StyledLink";
+
 export default function SignupForm({
   formData,
   onChange,
@@ -7,40 +12,42 @@ export default function SignupForm({
 }) {
   return (
     <div>
-      <h1>Signup Page</h1>
+      <Card title="Create an account" className="mx-auto">
+        <form onSubmit={onSubmit}>
+          <Input
+            label="Email"
+            id="email"
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={onChange}
+          />
+          <Input
+            label="Password"
+            id="password"
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={onChange}
+          />
+          <Input
+            label="Confirm Password"
+            id="confirmPassword"
+            type="password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={onChange}
+          />
 
-      <form onSubmit={onSubmit}>
-        <label htmlFor="email">Email</label>
-        <input
-          type="text"
-          name="email"
-          id="email"
-          value={formData.email}
-          onChange={onChange}
-        />
+          <p className="text-center my-4">
+            Already have an account? <StyledLink to="/login">Login</StyledLink>
+          </p>
 
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          value={formData.password}
-          onChange={onChange}
-        />
-
-        <label htmlFor="confirmPassword">Confirm Password</label>
-        <input
-          type="password"
-          name="confirmPassword"
-          id="confirmPassword"
-          value={formData.confirmPassword}
-          onChange={onChange}
-        />
-
-        <button disabled={loading}>
-          {loading ? "Please wait..." : "Signup"}
-        </button>
-      </form>
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? "Please wait..." : "Signup"}
+          </Button>
+        </form>
+      </Card>
 
       {error && <p className="pre-line">{error}</p>}
     </div>
