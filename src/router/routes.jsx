@@ -24,13 +24,13 @@ import CourseDetailPeople from "../pages/Course/CourseDetailPeople";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import DashboardSettings from "../pages/Dashboard/DashboardSettings";
 import Profile from "../pages/Profile/Profile";
+import UserList from "../pages/User/UserList";
+import NotFound from "../pages/NotFound";
+
 import ProfileNew from "../features/Profile/ProfileNew";
-import ProfileEdit from "../pages/Profile/ProfileEdit";
+import ProfileEdit from "../features/Profile/ProfileEdit";
 
 import RoleProtectedRoute from "./RoleProtectedRoute";
-import UserList from "../pages/User/UserList";
-
-import NotFound from "../pages/NotFound";
 
 export const router = createBrowserRouter([
   {
