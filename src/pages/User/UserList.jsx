@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function UserList() {
   const [profiles, setProfiles] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
