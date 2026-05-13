@@ -4,6 +4,8 @@ import { useNavigate } from "react-router";
 import { useProfile } from "../../context/profile/useProfile";
 import ProfileNewForm from "../../pages/Profile/ProfileNewForm";
 
+const PROFILE_API_URL = `${import.meta.env.VITE_API_URL}/profiles`;
+
 export default function ProfileNew() {
   const { setProfile } = useProfile();
   const navigate = useNavigate();
@@ -42,7 +44,7 @@ export default function ProfileNew() {
     setError("");
 
     try {
-      const url = "http://localhost:4000/api/profiles";
+      const url = PROFILE_API_URL;
       const options = {
         method: "POST",
         credentials: "include",
