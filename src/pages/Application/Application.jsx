@@ -1,48 +1,55 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 
-import { useAuth } from "../../context/auth/useAuth";
-import { getFullName } from "../../utils/name";
+import Button from "../../components/Button";
+
 import { useProfile } from "../../context/profile/useProfile";
 
+import { getFullName } from "../../utils/name";
+
+const APPLICATION_API_URL = `${import.meta.env.VITE_API_URL}/applications`;
+
 export default function Application() {
-  const { user } = useAuth();
   const { hasProfile } = useProfile();
 
   const navigate = useNavigate();
 
   const [application, setApplication] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    if (!user?._id) return;
-
-    const getApplication = async () => {
-      const url = "";
-      const options = {};
-
-      try {
-        setLoading(true);
-        setError("");
-
-        const response = await fetch(url, options);
-        const result = await response.json();
-
-        if (!response.ok) {
-          throw new Error(result.message || "Failed to fetch application.");
-        }
-
-        setApplication(result.data);
-      } catch (error) {
-        console.error("Fetch error:", error);
-      } finally {
-        setLoading(false);
-      }
+  const getApplication = useCallback(async () => {
+    const url = `${APPLICATION_API_URL}/me`;
+    const options = {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
     };
 
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await fetch(url, options);
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to fetch application.");
+      }
+
+      setApplication(result.data);
+    } catch (error) {
+      console.error("Fetch error:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
     getApplication();
-  }, [user?._id]);
+  }, [getApplication]);
 
   if (loading) return <div>Loading application...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -51,16 +58,16 @@ export default function Application() {
       <div>
         <p>You did not start an application yet.</p>
 
-        <button disabled={!hasProfile} onClick={() => navigate("new")}>
+        <Button disabled={!hasProfile} onClick={() => navigate("new")}>
           Start Application
-        </button>
+        </Button>
 
         {!hasProfile && (
           <>
             <p>To start an application, you MUST create a profile first.</p>
-            <button onClick={() => navigate("/profile/new")}>
+            <Button onClick={() => navigate("/profile/new")}>
               Create Profile
-            </button>
+            </Button>
           </>
         )}
       </div>

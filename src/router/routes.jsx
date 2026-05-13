@@ -10,7 +10,6 @@ import Signup from "../features/Signup";
 
 import PrivateRoute from "./PrivateRoute";
 import Application from "../pages/Application/Application";
-import ApplicationNew from "../features/Application/ApplicationNew";
 import Courses from "../pages/Course/Courses";
 import CourseDetails from "../pages/Course/CourseDetails";
 import CourseDetailModules from "../pages/Course/CourseDetailModules";
@@ -26,6 +25,8 @@ import DashboardSettings from "../pages/Dashboard/DashboardSettings";
 import Profile from "../pages/Profile/Profile";
 import UserList from "../pages/User/UserList";
 import NotFound from "../pages/NotFound";
+
+import ApplicationNew from "../features/Application/ApplicationNew";
 
 import ProfileNew from "../features/Profile/ProfileNew";
 import ProfileEdit from "../features/Profile/ProfileEdit";

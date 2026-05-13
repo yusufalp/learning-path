@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import ApplicationCreateForm from "../../pages/Application/ApplicationCreateForm";
+import ApplicationNewForm from "../../pages/Application/ApplicationNewForm";
 
 export default function ApplicationNew() {
   const [formData, setFormData] = useState({
@@ -34,7 +34,7 @@ export default function ApplicationNew() {
   };
 
   return (
-    <ApplicationCreateForm
+    <ApplicationNewForm
       formData={formData}
       onChange={handleChange}
       onSubmit={handleSubmit}
