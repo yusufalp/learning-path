@@ -6,7 +6,7 @@ const AUTH_API_URL = import.meta.env.VITE_AUTH_API_URL;
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const checkAuth = useCallback(async () => {
     const url = `${AUTH_API_URL}/checkAuth`;

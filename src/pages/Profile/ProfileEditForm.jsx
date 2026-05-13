@@ -14,7 +14,7 @@ export default function ProfileEditForm({
 }) {
   return (
     <div>
-      <Card title="Edit Profile">
+      <Card title="Edit Profile" className="w-1/2 mx-auto">
         <form onSubmit={onSubmit}>
           <Input
             label="First Name"
@@ -85,7 +85,7 @@ export default function ProfileEditForm({
               </option>
             ))}
           </Select>
-          <Button type="submit" disabled={loading}>
+          <Button type="submit" className="w-full" disabled={loading}>
             {loading ? "Updating Profile..." : "Update Profile"}
           </Button>
 

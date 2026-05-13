@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { ProfileContext } from "./ProfileContext";
 import { useAuth } from "../auth/useAuth";
 
-const PROFILE_API_URL = import.meta.env.VITE_PROFILE_API_URL;
+const PROFILE_API_URL = `${import.meta.env.VITE_API_URL}/profiles`;
 
 export function ProfileProvider({ children }) {
   const { user } = useAuth();
@@ -11,10 +11,14 @@ export function ProfileProvider({ children }) {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [checkedUserId, setCheckedUserId] = useState(null);
+
+  const userId = user?._id;
 
   const getProfile = useCallback(async () => {
-    if (!user) {
+    if (!userId) {
       setProfile(null);
+      setCheckedUserId(null);
       setLoading(false);
       return;
     }
@@ -45,9 +49,10 @@ export function ProfileProvider({ children }) {
       setProfile(null);
       setError(error.message || "Profile fetch failed.");
     } finally {
+      setCheckedUserId(userId);
       setLoading(false);
     }
-  }, [user]);
+  }, [userId]);
 
   useEffect(() => {
     getProfile();
@@ -56,14 +61,18 @@ export function ProfileProvider({ children }) {
   useEffect(() => {
     if (!user) {
       setProfile(null);
+      setCheckedUserId(null);
     }
   }, [user]);
 
   console.log("profile :>> ", profile);
 
+  const isLoadingCurrentUserProfile =
+    loading || Boolean(userId && checkedUserId !== userId);
+
   const value = {
     profile,
-    loading,
+    loading: isLoadingCurrentUserProfile,
     error,
     setProfile,
     hasProfile: !!profile,

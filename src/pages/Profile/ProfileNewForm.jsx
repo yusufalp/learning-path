@@ -14,7 +14,7 @@ export default function ProfileNewForm({
   error,
 }) {
   return (
-    <Card title="Create Profile">
+    <Card title="Create Profile" className="w-1/2 mx-auto">
       <form onSubmit={onSubmit}>
         <Input
           label="First Name"
@@ -92,7 +92,7 @@ export default function ProfileNewForm({
             </option>
           ))}
         </Select>
-        <Button type="submit" disabled={loading}>
+        <Button type="submit" className="w-full" disabled={loading}>
           {loading ? "Creating Profile..." : "Create Profile"}
         </Button>
 
