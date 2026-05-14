@@ -1,8 +1,7 @@
 export const ROLE_MAP = {
   owner: {
     text: "Owner",
-    description:
-      "Full control over the entire platform, including billing and deletion",
+    description: "Full control over the entire platform, including billing and deletion",
   },
   admin: {
     text: "Admin",
@@ -14,8 +13,7 @@ export const ROLE_MAP = {
   },
   mentee: {
     text: "Mentee",
-    description:
-      "Active student in the program, can access learning materials and submit work",
+    description: "Active student in the program, can access learning materials and submit work",
   },
   alumni: {
     text: "Alumni",

@@ -1,13 +1,16 @@
 import { Link, useNavigate } from "react-router";
 
-import Button from "../../components/Button";
-import { getFullName } from "../../utils/name";
 import { useProfile } from "../../context/profile/useProfile";
 import { useAuth } from "../../context/auth/useAuth";
+
 import Card from "../../components/Card";
+import Button from "../../components/Button";
+import Tooltip from "../../components/Tooltip";
+
 import { timezoneMap } from "../../constants/timezones";
 import { ROLE_MAP } from "../../constants/roles";
-import Tooltip from "../../components/Tooltip";
+
+import { getFullName } from "../../utils/name";
 
 export default function Profile() {
   const { profile, loading, error, hasProfile } = useProfile();

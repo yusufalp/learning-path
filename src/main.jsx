@@ -3,6 +3,7 @@ import { RouterProvider } from "react-router";
 
 import { AuthProvider } from "./context/auth/AuthProvider";
 import { ProfileProvider } from "./context/profile/ProfileProvider";
+
 import { router } from "./router/routes";
 
 import "./index.css";

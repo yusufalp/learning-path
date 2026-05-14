@@ -1,8 +1,9 @@
 import { Outlet, Link, useNavigate } from "react-router";
 
+import useHasRequiredRoles from "../../hooks/useHasRequiredRole";
+
 import Button from "../../components/Button";
 import Card from "../../components/Card";
-import useHasRequiredRoles from "../../hooks/useHasRequiredRole";
 
 export default function Dashboard() {
   const isOwnerOrAdmin = useHasRequiredRoles(["owner", "admin"]);

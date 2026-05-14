@@ -12,8 +12,8 @@ import ApplicationNew from "../features/Application/ApplicationNew";
 import ProfileNew from "../features/Profile/ProfileNew";
 import ProfileEdit from "../features/Profile/ProfileEdit";
 
-import Home from "../pages/Home";
 import About from "../pages/About";
+import Home from "../pages/Home";
 import Application from "../pages/Application/Application";
 import Courses from "../pages/Course/Courses";
 import CourseDetails from "../pages/Course/CourseDetails";

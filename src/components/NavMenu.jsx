@@ -1,5 +1,5 @@
-import useHasRequiredRoles from "../hooks/useHasRequiredRole";
 import StyledLink from "./StyledLink";
+import useHasRequiredRoles from "../hooks/useHasRequiredRole";
 
 export default function NavMenu({
   links,
@@ -11,7 +11,7 @@ export default function NavMenu({
   return (
     <>
       {links.map((link) => {
-        const hasPermission = link.roles.length === 0 ||  hasRoles(link.roles);
+        const hasPermission = link.roles.length === 0 || hasRoles(link.roles);
 
         if (!hasPermission) return null;
 

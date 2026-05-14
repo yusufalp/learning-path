@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 
-import Button from "../../components/Button";
-
 import { useProfile } from "../../context/profile/useProfile";
 
 import { getFullName } from "../../utils/name";
+
+import Button from "../../components/Button";
 
 const APPLICATION_API_URL = `${import.meta.env.VITE_API_URL}/applications`;
 

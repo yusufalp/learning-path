@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { useAuth } from "../context/auth/useAuth";
+
 import SignupForm from "../pages/SignupForm";
 
 export default function Signup() {
