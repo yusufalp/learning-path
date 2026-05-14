@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 
+import StyledLink from "../../components/StyledLink";
+import Card from "../../components/Card";
+
+const AUTH_API_URL = import.meta.env.VITE_AUTH_API_URL;
+
 export default function UserList() {
-  const [profiles, setProfiles] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchProfiles = async () => {
-      const url = "http://localhost:4000/api/profiles";
+      const url = `${AUTH_API_URL}/admin/users`;
       const options = {
         method: "GET",
         credentials: "include",
@@ -27,7 +32,7 @@ export default function UserList() {
           throw new Error(result.message);
         }
 
-        setProfiles(result.data);
+        setUsers(result.data);
       } catch (error) {
         console.error("Fetch error:", error);
         setError(error.message);
@@ -39,28 +44,22 @@ export default function UserList() {
     fetchProfiles();
   }, []);
 
-  console.log("profiles :>> ", profiles);
+  console.log("users :>> ", users);
 
   if (loading) return <div>Loading profiles...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
-      <h1>All User Profiles</h1>
-
+    <Card title="All Users">
       <ul>
-        {profiles.map((profile) => (
-          <li key={profile.user_id}>
-            <img src={profile.avatar_url} alt="" />
-            <div>
-              {profile.display_name ||
-                `${profile.first_name} ${profile.last_name}`}
-            </div>
+        {users.map((user) => (
+          <li key={user._id}>
+            <StyledLink to={`${user._id}`}>{user.email}</StyledLink>
           </li>
         ))}
       </ul>
 
-      {profiles.length === 0 && <p>No profiles found.</p>}
-    </div>
+      {users.length === 0 && <p>No users found.</p>}
+    </Card>
   );
 }
