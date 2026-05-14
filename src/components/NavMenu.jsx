@@ -1,3 +1,4 @@
+import useHasRequiredRoles from "../hooks/useHasRequiredRole";
 import StyledLink from "./StyledLink";
 
 export default function NavMenu({
@@ -6,19 +7,26 @@ export default function NavMenu({
   className = "",
   ...props
 }) {
+  const hasRoles = useHasRequiredRoles;
   return (
     <>
-      {links.map((link) => (
-        <StyledLink
-          key={link.to}
-          to={link.to}
-          onClick={onLinkClick}
-          className={className}
-          {...props}
-        >
-          {link.label}
-        </StyledLink>
-      ))}
+      {links.map((link) => {
+        const hasPermission = link.roles.length === 0 ||  hasRoles(link.roles);
+
+        if (!hasPermission) return null;
+
+        return (
+          <StyledLink
+            key={link.to}
+            to={link.to}
+            onClick={onLinkClick}
+            className={className}
+            {...props}
+          >
+            {link.label}
+          </StyledLink>
+        );
+      })}
     </>
   );
 }
