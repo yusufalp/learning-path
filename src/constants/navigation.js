@@ -1,15 +1,15 @@
 export const mainLinks = [
-  { to: "/", label: "Home" },
-  { to: "/about", label: "About" },
+  { to: "/", label: "Home", roles: [] },
+  { to: "/about", label: "About", roles: [] },
 ];
 
 export const authenticatedLinks = [
-  { to: "/dashboard", label: "Dashboard" },
-  { to: "/application", label: "Application" },
-  { to: "/profile", label: "Profile" },
+  { to: "/dashboard", label: "Dashboard", roles: [] },
+  { to: "/application", label: "Application", roles: ["read"] },
+  { to: "/profile", label: "Profile", roles: [] },
 ];
 
 export const guestLinks = [
-  { to: "/login", label: "Login" },
-  { to: "/signup", label: "Signup" },
+  { to: "/login", label: "Login", roles: [] },
+  { to: "/signup", label: "Signup", roles: [] },
 ];
