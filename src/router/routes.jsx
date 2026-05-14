@@ -1,14 +1,19 @@
 import { createBrowserRouter, Outlet } from "react-router";
 
 import MainLayout from "../layout/MainLayout";
-import Home from "../pages/Home";
-import About from "../pages/About";
 
 import PublicRoute from "./PublicRoute";
+import PrivateRoute from "./PrivateRoute";
+import RoleProtectedRoute from "./RoleProtectedRoute";
+
 import Login from "../features/Login";
 import Signup from "../features/Signup";
+import ApplicationNew from "../features/Application/ApplicationNew";
+import ProfileNew from "../features/Profile/ProfileNew";
+import ProfileEdit from "../features/Profile/ProfileEdit";
 
-import PrivateRoute from "./PrivateRoute";
+import Home from "../pages/Home";
+import About from "../pages/About";
 import Application from "../pages/Application/Application";
 import Courses from "../pages/Course/Courses";
 import CourseDetails from "../pages/Course/CourseDetails";
@@ -24,14 +29,12 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import DashboardSettings from "../pages/Dashboard/DashboardSettings";
 import Profile from "../pages/Profile/Profile";
 import UserList from "../pages/User/UserList";
+import UserDetails from "../pages/User/UserDetails";
+import UserDetailsUserEdit from "../pages/User/UserDetailsUserEdit";
+import UserDetailsProfileEdit from "../pages/User/UserDetailsProfileEdit";
+import UserDetailsApplicationEdit from "../pages/User/UserDetailsApplicationEdit";
+
 import NotFound from "../pages/NotFound";
-
-import ApplicationNew from "../features/Application/ApplicationNew";
-
-import ProfileNew from "../features/Profile/ProfileNew";
-import ProfileEdit from "../features/Profile/ProfileEdit";
-
-import RoleProtectedRoute from "./RoleProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -69,7 +72,32 @@ export const router = createBrowserRouter([
                 <Outlet />
               </RoleProtectedRoute>
             ),
-            children: [{ path: "users", Component: UserList }],
+            children: [
+              {
+                path: "users",
+                children: [
+                  { index: true, Component: UserList },
+                  {
+                    path: ":userId",
+                    children: [
+                      { index: true, Component: UserDetails },
+                      {
+                        path: "user-edit",
+                        Component: UserDetailsUserEdit,
+                      },
+                      {
+                        path: "profile-edit",
+                        Component: UserDetailsProfileEdit,
+                      },
+                      {
+                        path: "application-edit",
+                        Component: UserDetailsApplicationEdit,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
           },
           {
             path: "application",
