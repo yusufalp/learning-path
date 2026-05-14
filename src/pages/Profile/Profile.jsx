@@ -6,6 +6,8 @@ import { useProfile } from "../../context/profile/useProfile";
 import { useAuth } from "../../context/auth/useAuth";
 import Card from "../../components/Card";
 import { timezoneMap } from "../../constants/timezones";
+import { ROLE_MAP } from "../../constants/roles";
+import Tooltip from "../../components/Tooltip";
 
 export default function Profile() {
   const { profile, loading, error, hasProfile } = useProfile();
@@ -35,6 +37,12 @@ export default function Profile() {
               className="w-48 rounded-full mx-auto"
             />
           )}
+          <div className="text-center">
+            <Tooltip
+              text={ROLE_MAP[user.role].text}
+              tooltip={ROLE_MAP[user.role].description}
+            />
+          </div>
 
           <Button
             variant="primary"
