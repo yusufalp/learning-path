@@ -1,5 +1,6 @@
 import Button from "../components/Button";
 import Card from "../components/Card";
+import Error from "../components/Error";
 import Input from "../components/Input";
 import StyledLink from "../components/StyledLink";
 
@@ -47,9 +48,9 @@ export default function SignupForm({
             {loading ? "Please wait..." : "Signup"}
           </Button>
         </form>
+        
+        <Error errors={error.split("-")} />
       </Card>
-
-      {error && <p className="pre-line">{error}</p>}
     </div>
   );
 }

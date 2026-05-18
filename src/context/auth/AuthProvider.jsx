@@ -68,13 +68,13 @@ export function AuthProvider({ children }) {
       body: JSON.stringify({ email, password, confirmPassword }),
     };
 
-    const res = await fetch(url, options);
-    const data = await res.json();
+    const response = await fetch(url, options);
+    const result = await response.json();
 
-    if (res.ok || data.success) {
-      setUser(data.user);
+    if (response.ok || result.success) {
+      setUser(result.user);
     } else {
-      throw new Error(data.message);
+      throw new Error(result.message);
     }
   };
 
